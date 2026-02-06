@@ -4,7 +4,7 @@
  * Plugin Name: Claspo
  * Plugin URI: https://github.com/Claspo/claspo-wordpress-plugin
  * Description: Grow your email list and increase sales! Use the Claspo Popup Maker plugin to create pop-up windows, Spin the Wheel, Exit Intent, and Lead Gen forms.
- * Version: 1.0.4
+ * Version: 1.0.8
  * Author: Claspo Popup Builder team
  * Author URI: https://www.claspo.io
  * License: GPL-2.0+
@@ -37,7 +37,17 @@ function claspo_add_admin_menu() {
 }
 
 function claspo_check_script_id() {
+    // Security fix for CVE-2025-68568: Check user capabilities
+    if ( ! current_user_can( 'manage_options' ) ) {
+        return;
+    }
+
     if ( isset( $_GET['script_id'] ) && ! empty( $_GET['script_id'] ) ) {
+        // Security fix for CVE-2025-68568: Verify nonce for GET requests
+        if ( ! isset( $_GET['claspo_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['claspo_nonce'] ) ), 'claspo_script_callback' ) ) {
+            wp_die( 'Security check failed', 'Security Error', array( 'response' => 403 ) );
+        }
+
         $script_id = sanitize_text_field( wp_unslash($_GET['script_id']) );
         update_option( 'claspo_script_id', $script_id );
 
@@ -296,7 +306,7 @@ function claspo_clear_cache() {
             autoptimizeCache::clearall();
         }
 
-        if (class_exists("LiteSpeed_Cache_API") && method_exists("autoptimizeCache", "purge_all")) {
+        if (class_exists("LiteSpeed_Cache_API") && method_exists("LiteSpeed_Cache_API", "purge_all")) {
             LiteSpeed_Cache_API::purge_all();
         }
 

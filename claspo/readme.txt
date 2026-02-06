@@ -1,9 +1,9 @@
-=== Popup Builder: Exit-Intent pop-up, Spin the Wheel, Newsletter signup, Email Capture & Lead Generation forms maker ===
+=== Claspo - Popups, Spin the Wheel & Email Capture ===
 Contributors: integrationclaspo
-Tags: popup, pop up, popup builder, popup maker, exit intent popup, newsletter signup form, lead generation form, lead capture form, email subscription form, email signup form, spin the wheel, gamification
+Tags: popup, pop up, popup builder, popup maker, exit intent popup
 Requires at least: 1.0
-Tested up to: 6.7
-Stable tag: 1.0.4
+Tested up to: 6.9
+Stable tag: 1.0.8
 Requires PHP: 7.0
 Plugin URI: https://www.claspo.io
 License: GPLv2 or later
@@ -345,6 +345,20 @@ To understand how Claspo handles user data collected on your website, please ref
 10. Integrations
 
 == Changelog ==
+
+= 1.0.8 =
+* Security fix: Added authorization checks to prevent unauthorized access (CVE-2025-68568)
+* Security fix: Implemented nonce verification for callback requests
+* Improved security with proper capability checks for script management functions
+
+= 1.0.7 =
+* Fixed a bug with automatic cache cleaning in LiteSpeed Cache
+
+= 1.0.6 =
+* WordPress 6.9 compatibility
+
+= 1.0.5 =
+* WordPress 6.8 compatibility
 
 = 1.0.4 =
 * WordPress 6.7 compatibility

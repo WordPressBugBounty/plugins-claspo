@@ -14,8 +14,12 @@ if ( ! defined( 'ABSPATH' ) ) {
             $wp_domain = get_site_url();
             $wp_domain = str_replace('https://', '', $wp_domain);
             $wp_domain = str_replace('http://', '', $wp_domain);
+            
+            // Generate nonce for secure callback (CVE-2025-68568 fix)
+            $callback_nonce = wp_create_nonce('claspo_script_callback');
+            $callback_url = admin_url('admin.php?page=claspo_script_plugin&claspo_nonce=' . $callback_nonce);
             ?>
-            <a href="<?php echo esc_url("https://my.claspo.io/auth-ui/#registration?domain=" . urlencode($wp_domain) . "&integration_source=wordpress"); ?>" class="cl-btn-primary">
+            <a href="<?php echo esc_url("https://my.claspo.io/auth-ui/#registration?domain=" . urlencode($wp_domain) . "&integration_source=wordpress&callback_url=" . urlencode($callback_url)); ?>" class="cl-btn-primary">
                 <span class="cl-btn-label">Sign up and create new widget</span>
             </a>
 
