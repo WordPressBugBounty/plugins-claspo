@@ -2,8 +2,8 @@
 Contributors: integrationclaspo
 Tags: popup, pop up, popup builder, popup maker, exit intent popup
 Requires at least: 1.0
-Tested up to: 6.9
-Stable tag: 1.0.8
+Tested up to: 6.9.1
+Stable tag: 1.0.9
 Requires PHP: 7.0
 Plugin URI: https://www.claspo.io
 License: GPLv2 or later
@@ -345,6 +345,9 @@ To understand how Claspo handles user data collected on your website, please ref
 10. Integrations
 
 == Changelog ==
+
+= 1.0.9 =
+* WooCommerce compatibility
 
 = 1.0.8 =
 * Security fix: Added authorization checks to prevent unauthorized access (CVE-2025-68568)

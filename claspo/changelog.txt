@@ -1,0 +1,39 @@
+*** Claspo WooCommerce Extension Changelog ***
+
+2026-03-02 - version 1.0.9
+* Update - Added WooCommerce compatibility
+
+2026-01-06 - version 1.0.8
+* Fixed - Added capability checks for script management actions
+* Fixed - Implemented nonce verification for callback requests
+* Fixed - Prevented unauthorized access vulnerability (CVE-2025-68568)
+
+2025-12-22 - version 1.0.7
+* Fixed - Resolved issue with automatic cache clearing when using LiteSpeed Cache
+
+2025-12-17 - version 1.0.6
+* Update - Added compatibility with WordPress 6.9
+
+2024-12-12 - version 1.0.5
+* Update - Added compatibility with WordPress 6.8
+
+2025-10-25 - version 1.0.4
+* Update - Added compatibility with WordPress 6.7
+
+2025-07-05 - version 1.0.3
+* Update - Updated plugin branding and promotional video
+
+2025-07-01 - version 1.0.2
+* Update - Added compatibility with popular caching plugins
+    * WP Rocket
+    * WP Fastest Cache
+    * LiteSpeed Cache
+    * Autoptimize
+    * Hummingbird
+
+2025-06-10 - version 1.0.1
+* Fixed - Minor bug fixes
+* Tweak - Improved plugin UI in the admin panel
+
+2025-06-05 - version 1.0.0
+* New - Initial release

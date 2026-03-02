@@ -11,15 +11,14 @@ if ( ! defined( 'ABSPATH' ) ) {
             <h1 class="h1 mt-38 mb-20">Let’s begin!</h1>
 
             <?php
-            $wp_domain = get_site_url();
-            $wp_domain = str_replace('https://', '', $wp_domain);
-            $wp_domain = str_replace('http://', '', $wp_domain);
+            $claspo_wp_domain = get_site_url();
+            $claspo_wp_domain = str_replace('https://', '', $claspo_wp_domain);
+            $claspo_wp_domain = str_replace('http://', '', $claspo_wp_domain);
             
-            // Generate nonce for secure callback (CVE-2025-68568 fix)
-            $callback_nonce = wp_create_nonce('claspo_script_callback');
-            $callback_url = admin_url('admin.php?page=claspo_script_plugin&claspo_nonce=' . $callback_nonce);
+            $claspo_callback_nonce = wp_create_nonce('claspo_script_callback');
+            $claspo_callback_url = admin_url('admin.php?page=claspo_script_plugin&claspo_nonce=' . $claspo_callback_nonce);
             ?>
-            <a href="<?php echo esc_url("https://my.claspo.io/auth-ui/#registration?domain=" . urlencode($wp_domain) . "&integration_source=wordpress&callback_url=" . urlencode($callback_url)); ?>" class="cl-btn-primary">
+            <a href="<?php echo esc_url("https://my.claspo.io/auth-ui/#registration?domain=" . urlencode($claspo_wp_domain) . "&integration_source=wordpress&callback_url=" . urlencode($claspo_callback_url)); ?>" class="cl-btn-primary">
                 <span class="cl-btn-label">Sign up and create new widget</span>
             </a>
 
