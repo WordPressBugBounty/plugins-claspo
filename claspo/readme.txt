@@ -2,7 +2,7 @@
 Contributors: integrationclaspo
 Tags: popup, pop up, popup builder, popup maker, exit intent popup
 Requires at least: 1.0
-Tested up to: 6.9.1
+Tested up to: 6.9
 Stable tag: 1.0.9
 Requires PHP: 7.0
 Plugin URI: https://www.claspo.io
