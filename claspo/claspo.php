@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Claspo - Popups, Spin the Wheel & Email Capture
  * Description: Grow your email list and increase sales! Use the Claspo Popup Maker plugin to create pop-up windows, Spin the Wheel, Exit Intent, and Lead Gen forms.
- * Version: 1.0.9
+ * Version: 1.1.0
  * Author: Claspo Popup Builder team
  * Author URI: https://www.claspo.io
  * License: GPL-2.0+
@@ -16,10 +16,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 const CLASPO_GET_SCRIPT_URL = 'https://script.claspo.io/site-script/v1/site/script/';
+const CLASPO_EVENT_URL      = 'https://script.claspo.io/site-script/v1/event';
 
 add_action( 'admin_menu', 'claspo_add_admin_menu' );
 add_action( 'admin_post_claspo_save_script', 'claspo_save_script' );
-add_action( 'admin_post_claspo_disconnect_script', 'claspo_disconnect_script' );
 add_action( 'admin_init', 'claspo_check_script_id' );
 add_action( 'admin_enqueue_scripts', 'claspo_enqueue_admin_scripts' );
 
@@ -79,6 +79,9 @@ function claspo_check_script_id() {
                 delete_transient( 'claspo_api_error' );
 
                 claspo_clear_cache();
+
+                $verified = claspo_verify_and_ping( $script_id );
+                set_transient( 'claspo_script_verified', $verified, 30 );
             } else {
                 set_transient( 'claspo_api_error', 'Invalid response from API', 30 );
             }
@@ -103,12 +106,11 @@ function claspo_options_page() {
     $error_message   = get_transient( 'claspo_api_error' );
     $success_message = get_transient( 'claspo_success_message' );
 
-    if ( isset( $_GET['deactivation_feedback'] ) && $_GET['deactivation_feedback'] == 1
-         && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'claspo_deactivation_feedback' ) ) {
-        include plugin_dir_path( __FILE__ ) . 'templates/feedback.php';
-    } elseif ( $success_message && $script_code ) {
+    if ( $success_message && $script_code ) {
+        $claspo_verified = get_transient( 'claspo_script_verified' );
         include plugin_dir_path( __FILE__ ) . 'templates/success.php';
         delete_transient( 'claspo_success_message' );
+        delete_transient( 'claspo_script_verified' );
     } /*elseif ( $error_message ) {
         include plugin_dir_path( __FILE__ ) . 'templates/error.php';
         delete_transient( 'claspo_api_error' );
@@ -160,29 +162,14 @@ function claspo_save_script() {
                 delete_transient( 'claspo_api_error' );
 
                 claspo_clear_cache();
+
+                $verified = claspo_verify_and_ping( $script_id );
+                set_transient( 'claspo_script_verified', $verified, 30 );
             } else {
                 set_transient( 'claspo_api_error', 'Invalid response from API', 30 );
             }
         }
     }
-
-    wp_safe_redirect( admin_url( 'admin.php?page=claspo_script_plugin' ) );
-    exit;
-}
-
-function claspo_disconnect_script() {
-    if ( ! isset( $_POST['claspo_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['claspo_nonce'] ) ), 'claspo_disconnect_script' ) ) {
-        wp_die( 'Security check failed', 'Security Error', array( 'response' => 403 ) );
-    }
-
-    if ( ! current_user_can( 'manage_options' ) ) {
-        wp_die( 'You do not have sufficient permissions to access this page.', 'Permission Error', array( 'response' => 403 ) );
-    }
-
-    delete_option( 'claspo_script_id' );
-    delete_option( 'claspo_script_code' );
-
-    claspo_clear_cache();
 
     wp_safe_redirect( admin_url( 'admin.php?page=claspo_script_plugin' ) );
     exit;
@@ -205,55 +192,6 @@ function claspo_add_claspo_script() {
     if ( $script_code ) {
         wp_add_inline_script('claspo-script', $script_code);
     }
-}
-
-register_deactivation_hook( __FILE__, 'claspo_deactivation_feedback' );
-
-function claspo_deactivation_feedback() {
-    if ( current_user_can( 'manage_options' ) ) {
-        wp_safe_redirect( admin_url( 'admin.php?page=claspo_script_plugin&deactivation_feedback=1&_wpnonce=' . wp_create_nonce( 'claspo_deactivation_feedback' ) ) );
-        exit;
-    }
-}
-
-add_action( 'admin_post_claspo_send_feedback', 'claspo_send_feedback' );
-
-function claspo_send_feedback() {
-    if ( ! isset( $_POST['claspo_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['claspo_nonce'] ) ), 'claspo_feedback_nonce' ) ) {
-        wp_die( 'Security check failed', 'Security Error', array( 'response' => 403 ) );
-    }
-
-    if ( ! current_user_can( 'manage_options' ) ) {
-        wp_die( 'You do not have sufficient permissions to access this page.', 'Permission Error', array( 'response' => 403 ) );
-    }
-
-    $wp_domain = get_site_url();
-    $wp_domain = str_replace('https://', '', $wp_domain);
-    $wp_domain = str_replace('http://', '', $wp_domain);
-
-    $script_id = get_option( 'claspo_script_id' );
-    $feedback = isset( $_POST['feedback'] ) ? sanitize_textarea_field( wp_unslash($_POST['feedback']) ) : 'No feedback provided';
-
-    $to = 'integrations.feedback@claspo.io';
-    $subject = 'Feedback from WordPress plugin';
-    $body = "Domain: " . $wp_domain
-            . "\n\nScript ID: " . esc_html($script_id)
-            . "\n\nFeedback:\n" . esc_html($feedback)
-            . "\n\nPlugin version:\n" . esc_html( get_plugin_data( __FILE__ )['Version'] )
-            . "\n\nWordPress version:\n" . esc_html( get_bloginfo( 'version' ) )
-            . "\n\nPHP version:\n" . esc_html( phpversion() );
-    ;
-
-    wp_mail( $to, $subject, $body );
-
-    delete_option( 'claspo_script_id' );
-    delete_option( 'claspo_script_code' );
-
-    deactivate_plugins( plugin_basename( __FILE__ ), true );
-
-    claspo_clear_cache();
-    wp_safe_redirect( admin_url( 'plugins.php?deactivated=true' ) );
-    exit;
 }
 
 add_action( 'admin_init', 'claspo_register_settings' );
@@ -336,6 +274,53 @@ function claspo_clear_cache() {
         }
     } catch (Exception $e) {
         // do nothing
+    }
+}
+
+
+function claspo_verify_and_ping( $script_id ) {
+    try {
+        $home_response = wp_remote_get( home_url( '/' ) . '?claspo_nocache=' . time(), array(
+            'timeout'   => 15,
+            'sslverify' => false,
+        ) );
+
+        if ( is_wp_error( $home_response ) ) {
+            return false;
+        }
+
+        $html = wp_remote_retrieve_body( $home_response );
+
+        if ( empty( $html ) || stripos( $html, 'claspo' ) === false ) {
+            return false;
+        }
+
+        $site_url  = home_url( '/' );
+        $site_host = wp_parse_url( $site_url, PHP_URL_HOST );
+
+        $payload = array(
+            'scriptVersion' => 'latest',
+            'orgId'         => null,
+            'siteId'        => null,
+            'guid'          => $script_id,
+            'url'           => $site_url,
+            'message'       => 'SCRIPT_INITIAL_LOAD',
+            'log_level'     => 'INFO',
+            'data'          => wp_json_encode( array(
+                'site'                => $site_host,
+                'SCRIPT_INITIAL_LOAD' => 0,
+            ) ),
+        );
+
+        $ping = wp_remote_post( CLASPO_EVENT_URL, array(
+            'timeout' => 10,
+            'headers' => array( 'Content-Type' => 'application/json; charset=utf-8' ),
+            'body'    => wp_json_encode( $payload ),
+        ) );
+
+        return ! is_wp_error( $ping ) && wp_remote_retrieve_response_code( $ping ) < 400;
+    } catch ( Exception $e ) {
+        return false;
     }
 }
 

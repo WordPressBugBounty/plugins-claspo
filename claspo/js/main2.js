@@ -41,7 +41,6 @@
 })();
 document.addEventListener("DOMContentLoaded", function() {
   const scriptElement = document.getElementById("script-id");
-  var deactivateButton = document.getElementById("deactivate");
   if (scriptElement) {
     scriptElement.addEventListener("input", function() {
       const errorElement = document.getElementById("script-id-error");
@@ -51,13 +50,17 @@ document.addEventListener("DOMContentLoaded", function() {
         errorElement.style.display = "none";
       }
     });
-  }
-  if (deactivateButton) {
-    deactivateButton.addEventListener("click", function(event) {
-      var userConfirmed = confirm("Are you sure you want to deactivate?");
-      if (!userConfirmed) {
-        event.preventDefault();
-      }
-    });
+
+    var connectForm = scriptElement.closest("form");
+    if (connectForm) {
+      connectForm.addEventListener("submit", function() {
+        if (scriptElement.value.trim() !== "") {
+          var loader = document.getElementById("claspo-loader");
+          if (loader) {
+            loader.style.display = "flex";
+          }
+        }
+      });
+    }
   }
 });

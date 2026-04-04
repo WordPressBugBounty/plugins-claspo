@@ -23,10 +23,5 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <div class="cl-widget-title">Start from scratch</div>
             </a>
         </div>
-        <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-            <input type="hidden" name="action" value="claspo_disconnect_script">
-            <?php wp_nonce_field('claspo_disconnect_script', 'claspo_nonce'); ?>
-            <button type="submit" class="cl-btn-support w-auto mt-auto" style="cursor: pointer;" id="deactivate"><span class="cl-btn-label">Deactivate</span></button>
-        </form>
     </div>
 </div>

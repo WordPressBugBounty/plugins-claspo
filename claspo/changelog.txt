@@ -1,5 +1,8 @@
 *** Claspo WooCommerce Extension Changelog ***
 
+2026-04-04 - version 1.1.0
+* New - Auto-verification of script installation after saving Script ID
+
 2026-03-02 - version 1.0.9
 * Update - Added WooCommerce compatibility
 

@@ -39,8 +39,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                         }
                     ?>
                 </div>
-                <button class="cl-btn-secondary"><span class="cl-btn-label">Connect</span></button>
+                <button class="cl-btn-secondary" id="claspo-connect-btn"><span class="cl-btn-label">Connect</span></button>
             </form>
+            <div class="cl-loader-overlay" id="claspo-loader" style="display:none;">
+                <div class="cl-loader-spinner"></div>
+                <p class="cl-loader-text">Connecting to Claspo…</p>
+            </div>
             <div>
                 <h3 class="pt-24">How to get Script ID</h3>
                 <ol>
