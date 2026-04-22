@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Claspo - Popups, Spin the Wheel & Email Capture
  * Description: Grow your email list and increase sales! Use the Claspo Popup Maker plugin to create pop-up windows, Spin the Wheel, Exit Intent, and Lead Gen forms.
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: Claspo Popup Builder team
  * Author URI: https://www.claspo.io
  * License: GPL-2.0+
@@ -15,13 +15,16 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-const CLASPO_GET_SCRIPT_URL = 'https://script.claspo.io/site-script/v1/site/script/';
-const CLASPO_EVENT_URL      = 'https://script.claspo.io/site-script/v1/event';
+const CLASPO_GET_SCRIPT_URL  = 'https://script.claspo.io/site-script/v1/site/script/';
+const CLASPO_EVENT_URL       = 'https://script.claspo.io/site-script/v1/event';
+const CLASPO_STATE_TRANSIENT = 'claspo_connect_state_';
+const CLASPO_STATE_TTL       = 30 * MINUTE_IN_SECONDS;
 
 add_action( 'admin_menu', 'claspo_add_admin_menu' );
 add_action( 'admin_post_claspo_save_script', 'claspo_save_script' );
 add_action( 'admin_init', 'claspo_check_script_id' );
 add_action( 'admin_enqueue_scripts', 'claspo_enqueue_admin_scripts' );
+add_action( 'rest_api_init', 'claspo_register_rest_routes' );
 
 add_action( 'before_woocommerce_init', function () {
     if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
@@ -44,51 +47,34 @@ function claspo_add_admin_menu() {
 }
 
 function claspo_check_script_id() {
-    // Security fix for CVE-2025-68568: Check user capabilities
     if ( ! current_user_can( 'manage_options' ) ) {
         return;
     }
 
-    if ( isset( $_GET['script_id'] ) && ! empty( $_GET['script_id'] ) ) {
-        // Security fix for CVE-2025-68568: Verify nonce for GET requests
-        if ( ! isset( $_GET['claspo_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['claspo_nonce'] ) ), 'claspo_script_callback' ) ) {
-            wp_die( 'Security check failed', 'Security Error', array( 'response' => 403 ) );
-        }
+    if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'claspo_script_plugin' ) {
+        return;
+    }
 
-        $script_id = sanitize_text_field( wp_unslash($_GET['script_id']) );
-        update_option( 'claspo_script_id', $script_id );
+    $has_script_id_param = isset( $_GET['script_id'] ) && ! empty( $_GET['script_id'] );
+    $has_state_param     = isset( $_GET['claspo_state'] ) && ! empty( $_GET['claspo_state'] );
 
-        $response = wp_remote_get( CLASPO_GET_SCRIPT_URL . $script_id);
+    if ( ! $has_script_id_param && ! $has_state_param ) {
+        return;
+    }
 
-        if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
-            if ( is_wp_error( $response ) ) {
-                $error_message = $response->get_error_message();
-            } else {
-                $responseBody = json_decode( wp_remote_retrieve_body( $response), true);
-                $error_message = $responseBody['errorMessage'] ?? 'Invalid response from API';
-            }
-
-            set_transient( 'claspo_api_error', $error_message, 30 );
-        } else {
-            $body = wp_remote_retrieve_body( $response );
-
-            if ( ! empty( $body ) ) {
-                update_option( 'claspo_script_id', $script_id );
-                update_option( 'claspo_script_code', $body );
-                set_transient( 'claspo_success_message', true, 30 );
-                delete_transient( 'claspo_api_error' );
-
-                claspo_clear_cache();
-
-                $verified = claspo_verify_and_ping( $script_id );
-                set_transient( 'claspo_script_verified', $verified, 30 );
-            } else {
-                set_transient( 'claspo_api_error', 'Invalid response from API', 30 );
-            }
-        }
-
+    // If the plugin is already activated (e.g. background POST already succeeded, or a previous manual save),
+    // strip the query string so the user lands on a clean plugin page instead of seeing the form again.
+    if ( get_option( 'claspo_script_id' ) ) {
         wp_safe_redirect( admin_url( 'admin.php?page=claspo_script_plugin' ) );
         exit;
+    }
+
+    // Not yet activated: stash the incoming script_id so templates/form.php can prefill the input.
+    // The actual save still requires an explicit click on the Connect button, which is protected by a
+    // nonce and capability check in claspo_save_script(). Real validity of the ID is determined by
+    // the subsequent call to Claspo's API, which is a stronger guarantee than any local format check.
+    if ( $has_script_id_param ) {
+        $GLOBALS['claspo_prefill_script_id'] = sanitize_text_field( wp_unslash( $_GET['script_id'] ) );
     }
 }
 
@@ -126,10 +112,6 @@ function claspo_options_page() {
 }
 
 function claspo_save_script() {
-    /*if ( ! isset( $_POST['claspo_nonce'] ) || ! wp_verify_nonce( $_POST['claspo_nonce'], 'claspo_save_script' ) ) {
-        return;
-    }*/
-
     if ( ! isset( $_POST['claspo_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['claspo_nonce'] ) ), 'claspo_save_script' ) ) {
         wp_die( 'Security check failed', 'Security Error', array( 'response' => 403 ) );
     }
@@ -139,40 +121,130 @@ function claspo_save_script() {
     }
 
     if ( isset( $_POST['claspo_script_id'] ) ) {
-        $script_id = sanitize_text_field( wp_unslash($_POST['claspo_script_id'] ));
-
-        $response = wp_remote_get( CLASPO_GET_SCRIPT_URL . $script_id);
-
-        if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
-            if ( is_wp_error( $response ) ) {
-                $error_message = $response->get_error_message();
-            } else {
-                $responseBody = json_decode( wp_remote_retrieve_body( $response), true);
-                $error_message = $responseBody['errorMessage'] ?? 'Invalid response from API';
-            }
-
-            set_transient( 'claspo_api_error', $error_message, 30 );
-        } else {
-            $body = wp_remote_retrieve_body( $response );
-
-            if ( ! empty( $body ) ) {
-                update_option( 'claspo_script_id', $script_id );
-                update_option( 'claspo_script_code', $body );
-                set_transient( 'claspo_success_message', true, 30 );
-                delete_transient( 'claspo_api_error' );
-
-                claspo_clear_cache();
-
-                $verified = claspo_verify_and_ping( $script_id );
-                set_transient( 'claspo_script_verified', $verified, 30 );
-            } else {
-                set_transient( 'claspo_api_error', 'Invalid response from API', 30 );
-            }
-        }
+        $script_id = sanitize_text_field( wp_unslash( $_POST['claspo_script_id'] ) );
+        claspo_apply_script_id( $script_id );
     }
 
     wp_safe_redirect( admin_url( 'admin.php?page=claspo_script_plugin' ) );
     exit;
+}
+
+/**
+ * Fetch the script from Claspo by its ID and, on success, persist it locally,
+ * clear caches, and perform the installation self-check ping.
+ *
+ * Shared by the manual Connect form and the background REST handshake so both
+ * entry points stay behaviourally identical. The actual validity of the ID is
+ * determined by Claspo's API response, not by any local format check.
+ *
+ * @param string $script_id
+ * @return true|WP_Error True on success; WP_Error with code `api_error` or
+ *                       `empty_body` otherwise. Errors also populate the
+ *                       `claspo_api_error` transient for UI display.
+ */
+function claspo_apply_script_id( $script_id ) {
+    $response = wp_remote_get( CLASPO_GET_SCRIPT_URL . rawurlencode( $script_id ) );
+
+    if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+        if ( is_wp_error( $response ) ) {
+            $error_message = $response->get_error_message();
+        } else {
+            $response_body = json_decode( wp_remote_retrieve_body( $response ), true );
+            $error_message = $response_body['errorMessage'] ?? 'Invalid response from API';
+        }
+
+        set_transient( 'claspo_api_error', $error_message, 30 );
+        return new WP_Error( 'api_error', $error_message );
+    }
+
+    $body = wp_remote_retrieve_body( $response );
+
+    if ( empty( $body ) ) {
+        set_transient( 'claspo_api_error', 'Invalid response from API', 30 );
+        return new WP_Error( 'empty_body', 'Invalid response from API' );
+    }
+
+    update_option( 'claspo_script_id', $script_id );
+    update_option( 'claspo_script_code', $body );
+    set_transient( 'claspo_success_message', true, 30 );
+    delete_transient( 'claspo_api_error' );
+
+    claspo_clear_cache();
+
+    $verified = claspo_verify_and_ping( $script_id );
+    set_transient( 'claspo_script_verified', $verified, 30 );
+
+    return true;
+}
+
+function claspo_register_rest_routes() {
+    register_rest_route(
+        'claspo/v1',
+        '/connect',
+        array(
+            'methods'             => 'POST',
+            'callback'            => 'claspo_rest_connect',
+            'permission_callback' => '__return_true',
+        )
+    );
+}
+
+/**
+ * Background handshake endpoint called by Claspo right after registration.
+ *
+ * Authentication is based solely on a short-lived one-time `state` token that
+ * was generated by this site and passed to Claspo at registration time. The
+ * token is atomically consumed via delete_transient() return value, so two
+ * concurrent requests cannot both succeed.
+ *
+ * Responses are intentionally opaque: 200 on success, 400 on any failure,
+ * with no details about which step failed. This prevents the endpoint from
+ * being used as an enumeration or probing oracle.
+ *
+ * @param WP_REST_Request $request
+ * @return WP_REST_Response
+ */
+function claspo_rest_connect( WP_REST_Request $request ) {
+    $params = json_decode( (string) $request->get_body(), true );
+    if ( ! is_array( $params ) ) {
+        return claspo_rest_connect_error();
+    }
+
+    $state     = isset( $params['state'] ) ? sanitize_text_field( (string) $params['state'] ) : '';
+    $script_id = isset( $params['script_id'] ) ? sanitize_text_field( (string) $params['script_id'] ) : '';
+
+    // The state token we generate has a known shape (wp_generate_password, 32 chars, [A-Za-z0-9]).
+    if ( $state === '' || ! preg_match( '/^[A-Za-z0-9]{16,128}$/', $state ) ) {
+        return claspo_rest_connect_error();
+    }
+
+    if ( $script_id === '' ) {
+        return claspo_rest_connect_error();
+    }
+
+    // Atomically consume the state: delete_transient() returns true only if it
+    // actually existed. This closes the race window between validation and use.
+    if ( ! delete_transient( CLASPO_STATE_TRANSIENT . $state ) ) {
+        return claspo_rest_connect_error();
+    }
+
+    // If a script is already connected, do not overwrite it from a public endpoint.
+    if ( get_option( 'claspo_script_id' ) ) {
+        return claspo_rest_connect_error();
+    }
+
+    // Real validation of the script_id happens inside claspo_apply_script_id() via the
+    // call to Claspo's API — if the ID is not valid, the API returns a non-200 and we bail.
+    $result = claspo_apply_script_id( $script_id );
+    if ( is_wp_error( $result ) ) {
+        return claspo_rest_connect_error();
+    }
+
+    return new WP_REST_Response( array( 'status' => 'ok' ), 200 );
+}
+
+function claspo_rest_connect_error() {
+    return new WP_REST_Response( array( 'error' => 'invalid_request' ), 400 );
 }
 
 add_action( 'wp_footer', 'claspo_add_claspo_script' );
@@ -291,7 +363,7 @@ function claspo_verify_and_ping( $script_id ) {
 
         $html = wp_remote_retrieve_body( $home_response );
 
-        if ( empty( $html ) || stripos( $html, 'claspo' ) === false ) {
+        if ( empty( $html ) || stripos( $html, $script_id ) === false ) {
             return false;
         }
 

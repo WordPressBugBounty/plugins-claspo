@@ -14,11 +14,16 @@ if ( ! defined( 'ABSPATH' ) ) {
             $claspo_wp_domain = get_site_url();
             $claspo_wp_domain = str_replace('https://', '', $claspo_wp_domain);
             $claspo_wp_domain = str_replace('http://', '', $claspo_wp_domain);
-            
-            $claspo_callback_nonce = wp_create_nonce('claspo_script_callback');
-            $claspo_callback_url = admin_url('admin.php?page=claspo_script_plugin&claspo_nonce=' . $claspo_callback_nonce);
+
+            $claspo_state = wp_generate_password( 32, false );
+            set_transient( CLASPO_STATE_TRANSIENT . $claspo_state, 1, CLASPO_STATE_TTL );
+
+            $claspo_registration_url = 'https://my.claspo.io/auth-ui/#registration?'
+                . 'domain=' . urlencode( $claspo_wp_domain )
+                . '&integration_source=wordpress'
+                . '&state=' . urlencode( $claspo_state );
             ?>
-            <a href="<?php echo esc_url("https://my.claspo.io/auth-ui/#registration?domain=" . urlencode($claspo_wp_domain) . "&integration_source=wordpress&callback_url=" . urlencode($claspo_callback_url)); ?>" class="cl-btn-primary">
+            <a href="<?php echo esc_url( $claspo_registration_url ); ?>" class="cl-btn-primary">
                 <span class="cl-btn-label">Sign up and create new widget</span>
             </a>
 
@@ -31,7 +36,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                 <div class="cl-form-group">
                     <label for="script-id">Enter Script ID</label>
-                    <input type="text" id="script-id" name="claspo_script_id" placeholder="Script ID" maxlength="50" required>
+                    <?php $claspo_prefill_value = isset( $GLOBALS['claspo_prefill_script_id'] ) ? $GLOBALS['claspo_prefill_script_id'] : ''; ?>
+                    <input type="text" id="script-id" name="claspo_script_id" placeholder="Script ID" maxlength="50" value="<?php echo esc_attr( $claspo_prefill_value ); ?>" required>
                     <span class="error" id="script-id-error">Field can't be blank</span>
                     <?php
                         if ( isset($error_message) && !empty($error_message) ) {

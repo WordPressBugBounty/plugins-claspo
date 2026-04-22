@@ -1,5 +1,9 @@
 *** Claspo WooCommerce Extension Changelog ***
 
+2026-04-20 - version 1.2.0
+* New - Automatic activation via background handshake from Claspo right after registration
+* Fixed - "Security check failed" error when returning to WordPress via the Go to WordPress button
+
 2026-04-04 - version 1.1.0
 * New - Auto-verification of script installation after saving Script ID
 

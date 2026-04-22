@@ -3,7 +3,7 @@ Contributors: integrationclaspo
 Tags: popup, pop up, popup builder, popup maker, exit intent popup
 Requires at least: 1.0
 Tested up to: 6.9
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 Requires PHP: 7.0
 Plugin URI: https://www.claspo.io
 License: GPLv2 or later
@@ -200,6 +200,10 @@ To understand how Claspo handles user data collected on your website, please ref
 10. Integrations
 
 == Changelog ==
+
+= 1.2.0 =
+* Automatic activation via background handshake from Claspo right after registration
+* Fixed "Security check failed" error when returning to WordPress via the Go to WordPress button
 
 = 1.1.0 =
 * Auto-verification of script installation after saving Script ID
