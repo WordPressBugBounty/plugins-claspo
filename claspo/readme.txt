@@ -25,7 +25,7 @@ Most popup plugins help you collect emails. Claspo helps you build buyers before
 
 Your ESP manages subscribers. Claspo influences buying decisions before they become one.
 
-[youtube  https://www.youtube.com/watch?v=o9k0aA_3DTs]
+[youtube  https://www.youtube.com/watch?v=J4G24cZRquc]
 
 == Triple your conversions with gamified popups ==
 
