@@ -1,67 +1,78 @@
 <?php
+/**
+ * The connect screen.
+ *
+ * The Script ID field comes first because most people arrive here from Claspo
+ * already holding one. Creating an account is the second route, not the first.
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
+    exit;
 }
+
+$claspo_prefill = isset( $GLOBALS['claspo_prefill_script_id'] ) ? $GLOBALS['claspo_prefill_script_id'] : '';
 ?>
 
-<div class="wrapper">
-    <div class="content">
-        <div class="auth-wrapper">
-            <img src="<?php echo esc_url(plugins_url('img/claspo-logo-black.svg', dirname(__FILE__))); ?>" alt="">
-            <h1 class="h1 mt-38 mb-20">Let’s begin!</h1>
+<div class="wrap claspo-page is-connect">
 
-            <?php
-            $claspo_wp_domain = get_site_url();
-            $claspo_wp_domain = str_replace('https://', '', $claspo_wp_domain);
-            $claspo_wp_domain = str_replace('http://', '', $claspo_wp_domain);
+    <h1 class="screen-reader-text">Claspo</h1>
 
-            $claspo_state = wp_generate_password( 32, false );
-            set_transient( CLASPO_STATE_TRANSIENT . $claspo_state, 1, CLASPO_STATE_TTL );
+    <div class="claspo-center">
+    <div
+        class="claspo-connect"
+        data-claspo-connected="<?php echo esc_url( rest_url( 'claspo/v1/connected' ) ); ?>"
+        data-claspo-nonce="<?php echo esc_attr( wp_create_nonce( 'wp_rest' ) ); ?>">
 
-            $claspo_registration_url = 'https://my.claspo.io/auth-ui/#registration?'
-                . 'domain=' . urlencode( $claspo_wp_domain )
-                . '&integration_source=wordpress'
-                . '&state=' . urlencode( $claspo_state );
-            ?>
-            <a href="<?php echo esc_url( $claspo_registration_url ); ?>" class="cl-btn-primary">
-                <span class="cl-btn-label">Sign up and create new widget</span>
-            </a>
-
-            <div class="pt-24 pb-24">
-                <div class="h3 text-center">Or</div>
-            </div>
-            <form action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post">
-                <input type="hidden" name="action" value="claspo_save_script">
-                <?php wp_nonce_field('claspo_save_script', 'claspo_nonce'); ?>
-
-                <div class="cl-form-group">
-                    <label for="script-id">Enter Script ID</label>
-                    <?php $claspo_prefill_value = isset( $GLOBALS['claspo_prefill_script_id'] ) ? $GLOBALS['claspo_prefill_script_id'] : ''; ?>
-                    <input type="text" id="script-id" name="claspo_script_id" placeholder="Script ID" maxlength="50" value="<?php echo esc_attr( $claspo_prefill_value ); ?>" required>
-                    <span class="error" id="script-id-error">Field can't be blank</span>
-                    <?php
-                        if ( isset($error_message) && !empty($error_message) ) {
-                            echo '<span class="error" style="display: block;">' . esc_html($error_message) . '</span>';
-                        }
-                    ?>
-                </div>
-                <button class="cl-btn-secondary" id="claspo-connect-btn"><span class="cl-btn-label">Connect</span></button>
-            </form>
-            <div class="cl-loader-overlay" id="claspo-loader" style="display:none;">
-                <div class="cl-loader-spinner"></div>
-                <p class="cl-loader-text">Connecting to Claspo…</p>
-            </div>
+        <div class="claspo-connect-head">
+            <img class="claspo-connect-mark" src="<?php echo esc_url( plugins_url( 'img/claspo-mark-color.svg', dirname( __FILE__ ) ) ); ?>" alt="" width="40" height="40">
             <div>
-                <h3 class="pt-24">How to get Script ID</h3>
-                <ol>
-                    <li><a href="https://my.claspo.io" class="link" target="_blank">Sign in</a> to Claspo account.</li>
-                    <li>Select <span class="link hover-link-script">Script</span> in the left menu.</li>
-                    <li>In the <span class="link hover-link-wordpress"> WordPress block</span>, click Install</li>
-                    <li>Click <span class="link hover-link-copyid">Сopy ID</span> in the instructions and paste it here</li>
-                </ol>
-
+                <h2>Connect your Claspo account</h2>
+                <p>One step, and your popups start showing on this site.</p>
             </div>
         </div>
+
+        <?php if ( ! empty( $claspo_error ) ) : ?>
+            <div class="notice notice-error inline"><p><?php echo esc_html( $claspo_error ); ?></p></div>
+        <?php endif; ?>
+
+        <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+            <input type="hidden" name="action" value="claspo_save_script">
+            <?php wp_nonce_field( 'claspo_save_script', 'claspo_nonce' ); ?>
+
+            <label class="claspo-label" for="claspo_script_id">Script ID</label>
+            <div class="claspo-field">
+                <input
+                    type="text"
+                    id="claspo_script_id"
+                    name="claspo_script_id"
+                    value="<?php echo esc_attr( $claspo_prefill ); ?>"
+                    placeholder="Paste your Script ID here"
+                    maxlength="50"
+                    required>
+                <button type="submit" class="button claspo-primary" data-busy="Connecting…">Connect</button>
+            </div>
+
+            <details class="claspo-where">
+                <summary>Where do I find it?</summary>
+                <ol>
+                    <li>Open Claspo and pick <strong>Script</strong> in the left menu</li>
+                    <li>In the <strong>WordPress</strong> block, click <strong>Install</strong></li>
+                    <li>Click <strong>Copy ID</strong> and paste it here</li>
+                </ol>
+            </details>
+        </form>
+
+        <div class="claspo-or"><span>or</span></div>
+
+        <div class="claspo-signup">
+            <div>
+                <h3>No Claspo account yet?</h3>
+                <p>Every feature, unlimited widgets, 3,000 pageviews a month, free.</p>
+            </div>
+            <a class="button claspo-secondary" href="<?php echo esc_url( claspo_registration_url() ); ?>" target="_blank" rel="noopener">Create an account</a>
+        </div>
+
     </div>
-    <div class="banner"></div>
+    </div>
+
 </div>

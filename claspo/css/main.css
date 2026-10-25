@@ -1,1 +1,1133 @@
-@font-face{font-family:Montserrat;font-weight:700;src:url(../fonts/montserrat-bold.woff) format("woff"),url(../fonts/montserrat-bold.woff2) format("woff2"),url(../fonts/montserrat-bold.ttf) format("truetype");font-display:swap}@font-face{font-family:Montserrat;font-weight:600;src:url(../fonts/montserrat-semibold.woff) format("woff"),url(../fonts/montserrat-semibold.woff2) format("woff2"),url(../fonts/montserrat-semibold.ttf) format("truetype");font-display:swap}@font-face{font-family:Montserrat;font-weight:500;src:url(../fonts/montserrat-medium.woff) format("woff"),url(../fonts/montserrat-medium.woff2) format("woff2"),url(../fonts/montserrat-medium.ttf) format("truetype");font-display:swap}@font-face{font-family:Montserrat;font-weight:400;src:url(../fonts/montserrat-regular.woff) format("woff"),url(../fonts/montserrat-regular.woff2) format("woff2"),url(../fonts/montserrat-regular.ttf) format("truetype");font-display:swap}*{margin:0;padding:0}*,:after,:before{box-sizing:border-box}html,body{height:100%;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:rgba(0,0,0,0);min-height:100%;box-sizing:border-box;background:#f8f8f8;overflow-x:hidden}.settings_page_claspo_script_plugin,.toplevel_page_claspo_script_plugin,.settings_page_claspo_script_plugin #wpwrap,.settings_page_claspo_script_plugin #wpbody,.toplevel_page_claspo_script_plugin #wpwrap,.toplevel_page_claspo_script_plugin #wpbody{height:100%!important}.settings_page_claspo_script_plugin #wpbody-content,.toplevel_page_claspo_script_plugin #wpbody-content{padding-bottom:0;height:100%!important}.settings_page_claspo_script_plugin #wpcontent,.toplevel_page_claspo_script_plugin #wpcontent{height:100%!important}:focus{outline:none}::-moz-focus-inner{border:0}a{text-decoration:none;color:#f3492c}a:active,a:hover,a:focus,a:hover:focus{color:#fff;box-shadow:unset;outline:unset}h1,.h1{font-family:Montserrat,sans-serif;font-weight:600;color:#2c2c2c;font-size:24px;line-height:36px}h3,.h3{font-family:Montserrat,sans-serif;font-weight:600;color:#2c2c2c;font-size:16px;line-height:24px;margin:0}p{font-size:16px;color:#2c2c2c}ol{margin-left:0!important}button{cursor:pointer}.wrapper{height:100%;display:flex;flex-wrap:wrap;font-family:Montserrat,sans-serif;font-size:16px;color:#2c2c2c;font-weight:400}.wrapper-blank{height:100%;display:flex;flex-direction:column;flex-wrap:nowrap;padding:28px 40px 80px;font-family:Montserrat,sans-serif;font-size:16px;color:#2c2c2c;font-weight:400}.wrapper-blank header{display:flex;flex-direction:row;justify-content:space-between;align-items:center}.content{flex:1 1 100%;padding:40px 40px 80px;display:flex;flex-direction:row;align-items:center}.content-page{display:flex;flex-direction:column;justify-content:flex-start;align-items:center;flex-grow:1;padding:10vh 0}.h1.done{display:flex;flex-direction:row;align-items:center}.auth-wrapper,.success-wrapper{max-width:440px;margin:0 auto;width:100%;min-height:512px;position:relative}.info-message{margin-top:35px;display:flex;flex-direction:row;align-items:start;gap:5px}.info-message svg{margin-top:-3px;min-width:20px;height:20px}.info-message .small{font-size:14px;line-height:16px;margin:0}.banner{flex:1 1 100%;background:url(../img/banner-bg.svg) no-repeat top left;background-size:cover}@media (max-width: 959px){.banner{display:none}}@media (min-width: 960px){.content,.content-success,.banner{flex:1 1 50%}}@media (min-width: 1920px){.banner{max-width:960px}}.m-0{margin:0!important}.mt-auto{margin-top:auto!important}.mt-38{margin-top:38px!important}.mt-60{margin-top:60px!important}.mb-14{margin-bottom:14px!important}.mb-20{margin-bottom:20px!important}.mb-30{margin-bottom:30px!important}.pt-24{padding-top:24px!important}.pb-24{padding-bottom:24px!important}.pl-5{padding-left:5px!important}.pl-15{padding-left:15px!important}.text-center{text-align:center}.w-auto{width:auto!important}ol{margin-top:5px;list-style-position:inside}ol li{line-height:21px;font-size:14px}.link{color:#f3492c;cursor:pointer}.link:active,.link:hover,.link:focus,.link:hover:focus{color:#f45b41;box-shadow:unset;outline:unset}.hover-link-script,.hover-link-wordpress,.hover-link-copyid{position:relative}.hover-link-script:after{content:"";position:absolute;top:-100px;left:360px;width:400px;height:227px;border-radius:10px;background-image:url(../img/script-2x.png);background-size:cover;background-repeat:no-repeat;opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease;pointer-events:none;box-shadow:0 4px 15px #00000040,0 0 0 1px #00000012}.hover-link-script:hover:after{opacity:1;transform:translateY(0)}.hover-link-wordpress:after{content:"";position:absolute;top:-121px;left:360px;width:400px;height:259px;border-radius:10px;background-image:url(../img/wordpress-2x.png);background-size:cover;background-repeat:no-repeat;opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease;pointer-events:none;box-shadow:0 4px 15px #00000040,0 0 0 1px #00000012}.hover-link-wordpress:hover:after{opacity:1;transform:translateY(0)}.hover-link-copyid:after{content:"";position:absolute;top:-142px;left:360px;width:400px;height:218px;border-radius:10px;background-image:url(../img/copyid-2x.png);background-size:cover;background-repeat:no-repeat;opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease;pointer-events:none;box-shadow:0 4px 15px #00000040,0 0 0 1px #00000012}.hover-link-copyid:hover:after{opacity:1;transform:translateY(0)}.cl-btn-primary{background:#f3492c;color:#fff!important;border-radius:22px;padding:11px 30px 9px;text-align:center;border:1px solid transparent;transition:all .15s;display:inline-block;width:100%;border:0;cursor:pointer}.cl-btn-primary:hover{background:#f45b41}.cl-btn-primary:active{background:#e9462a}.cl-btn-primary:focus{background:#e9462a;box-shadow:0 0 0 2px #fe7c2259}.cl-btn-secondary{background:#fff;color:#2c2c2c;border-radius:22px;padding:11px 30px 9px;text-align:center;box-shadow:inset 0 0 0 2px #f3492c,0 0 0 2px #00000012;transition:all .15s;display:inline-block;width:100%;border:0;cursor:pointer}.cl-btn-secondary:focus{color:#2c2c2c;box-shadow:inset 0 0 0 2px #f3492c,0 0 0 2px #00000012}.cl-btn-secondary:hover{color:#2c2c2c;background:#feeeeb;box-shadow:inset 0 0 0 2px #f3492c,0 0 0 2px #00000012,0 1px 3px #0000001a}.cl-btn-secondary:hover:focus{color:#2c2c2c;box-shadow:inset 0 0 0 2px #f3492c,0 0 0 2px #00000012}.cl-btn-secondary:active{color:#2c2c2c;background:#feeeeb;box-shadow:inset 0 0 0 2px #f3492c,0 0 0 2px #fe7c2259}.cl-btn-label{font-family:Montserrat,sans-serif;font-weight:600;font-size:16px;line-height:1.4;text-align:center;white-space:nowrap}.cl-btn-text{color:#f3492c;background:unset;border:0;cursor:pointer}.cl-btn-text:active,.cl-btn-text:hover,.cl-btn-text:focus,.cl-btn-text:hover:focus{color:#2c2c2c;box-shadow:unset;outline:unset}.cl-btn-support{padding:10px 20px;color:#2c2c2c;border-radius:22px;text-align:center;line-height:24px;transition:all .15s;display:inline-block;border:0;background:unset}.cl-btn-support:hover,.cl-btn-support:focus,.cl-btn-support:hover:focus{color:#f3492c}.cl-btn-support:active{background:#feeeeb;color:#f3492c;box-shadow:0 0 0 2px #e5e5e5}.cl-form-group{display:flex;flex-direction:column;padding-bottom:24px;position:relative}.cl-form-group label{font-size:14px;font-weight:500;line-height:21px;margin-bottom:8px}.cl-form-group input[type=text]{padding:12px 16px;border-radius:22px;font-family:Montserrat,sans-serif;font-weight:400;line-height:1;color:#2c2c2c;font-size:16px;outline:none;transition:border-color .3s;border:1px solid transparent;background:#f2f3f5;transition:all .15s}.cl-form-group input[type=text]:hover{background:#e5e5e5}.cl-form-group input[type=text]:focus{background:#e5e5e5;border:1px solid #F3492C;box-shadow:0 0 0 2px #fe7c2259}.cl-form-group input[type=text]::placeholder,.cl-form-group input[type=text]::-webkit-input-placeholder,.cl-form-group input[type=text]::-moz-placeholder,.cl-form-group input[type=text]:-ms-input-placeholder,.cl-form-group input[type=text]:-moz-placeholder{color:#8f8f8f}.cl-form-group .error{position:absolute;bottom:6px;left:0;color:red;font-size:12px;margin-top:5px;margin-bottom:0!important;display:none}.cl-form-group .textarea-container{width:394px}.cl-form-group textarea{width:100%;height:110px;padding:12px 16px;border-radius:22px;font-family:Montserrat,sans-serif;font-weight:400;color:#2c2c2c;font-size:16px;outline:none;transition:border-color .3s;border:1px solid transparent;background:#f2f3f5;transition:all .15s;resize:none;box-sizing:border-box}.cl-form-group textarea:hover{background:#e5e5e5}.cl-form-group textarea:focus{background:#e5e5e5;border:1px solid #F3492C;box-shadow:0 0 0 2px #fe7c2259}.cl-form-group textarea::placeholder,.cl-form-group textarea::-webkit-input-placeholder,.cl-form-group textarea::-moz-placeholder,.cl-form-group textarea:-ms-input-placeholder,.cl-form-group textarea:-moz-placeholder{color:#8f8f8f}.cl-widget-tiles{display:flex;flex-direction:row;gap:34px;padding-bottom:60px;flex-wrap:wrap;justify-content:center}.cl-widget-tile{display:flex;flex-direction:column;align-items:center;width:247px;padding:33px 20px 37px;box-shadow:inset 0 0 0 2px #e8e8e8;border-radius:17px;background:#fff}.cl-widget-tile:hover{transition:all .15s;box-shadow:inset 0 0 0 2px #f3492c;background:#fef3f1}.cl-widget-tile:hover:focus{box-shadow:inset 0 0 0 2px #f3492c,0 0 0 2px #dc4c2759}.cl-widget-tile:focus{box-shadow:inset 0 0 0 2px #e8e8e8,0 0 0 2px #dc4c2759}.cl-widget-img{margin-bottom:36px}.cl-widget-img.scratch{transform:translate(5px)}.cl-widget-title{color:#2c2c2c;margin-top:auto;line-height:24px;font-size:16px;font-weight:600;letter-spacing:1%}.cl-controls-wrapper{margin-top:36px;display:flex;flex-direction:row;justify-content:space-between;gap:30px;align-items:center}.cl-loader-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(248,248,248,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;border-radius:inherit}.cl-loader-spinner{width:36px;height:36px;border:3px solid #e8e8e8;border-top-color:#f3492c;border-radius:50%;animation:cl-spin .7s linear infinite}.cl-loader-text{margin-top:16px;font-family:Montserrat,sans-serif;font-size:14px;font-weight:500;color:#2c2c2c}@keyframes cl-spin{to{transform:rotate(360deg)}}
+/*
+ * Claspo admin styles.
+ *
+ * The sheet loads on the plugin page and on the dashboard, where our widget
+ * lives, so it must not touch anything outside .claspo-* and our own two ids.
+ * The first version carried a global reset with `a:hover { color: #fff }` and a
+ * rule zeroing #wpbody-content's bottom padding; both leaked into WordPress's
+ * own interface and are gone.
+ *
+ * Every colour and radius below is taken from Claspo's own design system, not
+ * invented here. Sources, so they can be checked:
+ *   claspo-ui/assets/scss/vars.scss
+ *   claspo-ui/libs/components/app-theme/app-theme.constant.ts  (CL_APP_THEME)
+ *
+ * The two things that matter most: the accent is orange, never blue, and
+ * controls are pills rather than 3px rectangles. WordPress's admin is blue and
+ * square, so a fair amount of this file is spent overriding core — which is the
+ * price of looking like Claspo inside someone else's furniture.
+ */
+
+/* ---------------------------------------------------------------------------
+   Tokens.
+
+   Declared on the four roots the plugin owns. They inherit from there, so
+   nothing outside these subtrees can pick them up by accident.
+   --------------------------------------------------------------------------- */
+
+.claspo-page,
+#claspo_status_widget,
+.claspo-notice,
+.claspo-review-notice {
+    --cl-accent: #f3492c;
+    --cl-accent-hover: #ff5238;
+    --cl-accent-soft: #fff0ea;
+    --cl-on-accent: #fff;
+
+    --cl-ink: #2c2c2c;
+    --cl-ink-soft: #8f8f8f;
+    --cl-ink-faint: #b5b5b5;
+
+    --cl-surface: #fff;
+    --cl-fill: #f2f3f5;
+    --cl-fill-hover: #e9eaed;
+    --cl-line: #e6e6e6;
+    --cl-line-strong: #e2e4e9;
+
+    --cl-success: #1e7e34;
+    --cl-success-soft: #e1f9ed;
+    --cl-warning: #b26a00;
+    --cl-warning-soft: #fff2cc;
+    --cl-error: #e73324;
+    --cl-error-soft: #fad6d6;
+
+    --cl-focus: #ffd1b2;
+
+    --cl-radius-pill: 22px;
+    --cl-radius-card: 10px;
+    --cl-radius-sm: 6px;
+    --cl-shadow-float: 0 10px 36px rgba(25, 1, 49, .08);
+
+    --cl-control-h: 44px;
+}
+
+/* ---------------------------------------------------------------------------
+   Brand typography.
+
+   Montserrat is Claspo's typeface and it earns its place on the surfaces the
+   plugin owns. Only woff2 ships, and only the two weights actually used.
+   --------------------------------------------------------------------------- */
+
+@font-face {
+    font-family: Montserrat;
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    src: url(../fonts/montserrat-regular.woff2) format("woff2");
+}
+
+@font-face {
+    font-family: Montserrat;
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+    src: url(../fonts/montserrat-semibold.woff2) format("woff2");
+}
+
+/* Headings, titles, tabs and buttons. Body copy and table cells keep the
+   admin's own stack: Montserrat is wide, and dense tables read worse in it. */
+.claspo-page h1,
+.claspo-page h2,
+.claspo-page h3,
+.claspo-page .claspo-group-title,
+.claspo-page .claspo-label,
+.claspo-page .button,
+.claspo-page .nav-tab,
+.claspo-page .claspo-badge {
+    font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+}
+
+.claspo-page h1,
+.claspo-page h2,
+.claspo-page h3,
+.claspo-page .claspo-group-title {
+    font-weight: 600;
+    letter-spacing: -.01em;
+    color: var(--cl-ink);
+}
+
+/* ---------------------------------------------------------------------------
+   Plugin screen.
+   --------------------------------------------------------------------------- */
+
+/* No width cap. There was one at 1320px, held over from the days when this
+   sheet carried a global rule zeroing #wpbody-content's bottom padding and a
+   wide table could slide under the admin footer. That rule is long gone, and
+   every other WordPress screen runs the full width of the content area, so the
+   cap only left a band of empty page on a large monitor.
+
+   .wrap already carries `margin: 10px 20px 0 2px` from core, so the right
+   gutter is there without us adding one. */
+.claspo-page {
+    padding-bottom: 40px;
+    box-sizing: border-box;
+    color: var(--cl-ink);
+}
+
+.claspo-page .claspo-title {
+    margin-bottom: 14px;
+}
+
+.claspo-page table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.claspo-page td,
+.claspo-page th {
+    overflow-wrap: anywhere;
+}
+
+/* Links.
+
+   Content links — widget names in the list, above all — stay ink. Painting every
+   link with the accent turned eight rows of widget names into eight orange
+   lines that read as warnings, and left the accent meaning nothing. The accent
+   is kept for links that are actions: "View" in the Leads column, the links in
+   the dashboard widget and in notices. */
+.claspo-page a:not(.button):not(.nav-tab) {
+    color: var(--cl-ink);
+    text-decoration: none;
+}
+
+.claspo-page a:not(.button):not(.nav-tab):hover,
+.claspo-page a:not(.button):not(.nav-tab):focus {
+    color: var(--cl-accent);
+    text-decoration: underline;
+}
+
+.claspo-page .claspo-right a:not(.button):not(.nav-tab),
+.claspo-page .claspo-strip-text a:not(.button):not(.nav-tab),
+.claspo-notice a:not(.button),
+.claspo-review-notice a:not(.button) {
+    color: var(--cl-accent);
+    text-decoration: none;
+}
+
+.claspo-page .claspo-right a:not(.button):not(.nav-tab):hover,
+.claspo-notice a:not(.button):hover,
+.claspo-review-notice a:not(.button):hover {
+    color: var(--cl-accent-hover);
+    text-decoration: underline;
+}
+
+.claspo-page .claspo-quiet,
+.claspo-page .claspo-quiet:hover {
+    color: var(--cl-ink-soft);
+}
+
+.claspo-dim {
+    color: var(--cl-ink-soft);
+}
+
+.claspo-right {
+    text-align: right;
+}
+
+.claspo-block {
+    display: block;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+/* --- Buttons --------------------------------------------------------------
+
+   Three weights, because a page with five accent-coloured buttons has no
+   primary action at all:
+
+     .claspo-primary   filled accent, white text   — the one thing to do here
+     .claspo-secondary 2px accent outline          — its pair, when there is one
+     .button           neutral #F2F3F5 fill        — utility ("Check now")
+
+   The neutral fill is Claspo's own: it is what the search inputs, selects,
+   datepickers and paging controls are built from (claspo-ui es-restyle.scss).
+   -------------------------------------------------------------------------- */
+
+.wp-core-ui .claspo-page .button,
+.wp-core-ui .claspo-notice .button,
+.wp-core-ui .claspo-review-notice .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 6px 22px;
+    border-radius: var(--cl-radius-pill);
+    border: 2px solid transparent;
+    background: var(--cl-fill);
+    color: var(--cl-ink);
+    font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none;
+    text-shadow: none;
+    box-shadow: none;
+    transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.wp-core-ui .claspo-page .button:hover,
+.wp-core-ui .claspo-page .button:focus,
+.wp-core-ui .claspo-notice .button:hover,
+.wp-core-ui .claspo-review-notice .button:hover {
+    background: var(--cl-fill-hover);
+    border-color: transparent;
+    color: var(--cl-ink);
+}
+
+.wp-core-ui .claspo-page .claspo-secondary.button,
+.wp-core-ui .claspo-review-notice .claspo-secondary.button {
+    background: var(--cl-surface);
+    border-color: var(--cl-accent);
+    color: var(--cl-ink);
+}
+
+.wp-core-ui .claspo-page .claspo-secondary.button:hover,
+.wp-core-ui .claspo-page .claspo-secondary.button:focus,
+.wp-core-ui .claspo-review-notice .claspo-secondary.button:hover {
+    background: var(--cl-accent-soft);
+    border-color: var(--cl-accent-hover);
+    color: var(--cl-ink);
+}
+
+.wp-core-ui .claspo-page .claspo-primary.button,
+.wp-core-ui .claspo-notice .claspo-primary.button,
+.wp-core-ui .claspo-review-notice .claspo-primary.button {
+    background: var(--cl-accent);
+    border-color: var(--cl-accent);
+    color: var(--cl-on-accent);
+}
+
+.wp-core-ui .claspo-page .claspo-primary.button:hover,
+.wp-core-ui .claspo-page .claspo-primary.button:focus,
+.wp-core-ui .claspo-notice .claspo-primary.button:hover,
+.wp-core-ui .claspo-review-notice .claspo-primary.button:hover {
+    background: var(--cl-accent-hover);
+    border-color: var(--cl-accent-hover);
+    color: var(--cl-on-accent);
+}
+
+/* A stacked button fills its column. The rule above makes every button an
+   inline-flex box, which out-ranks .claspo-block's `display: block` and left
+   the side-card buttons shrink-wrapped and unevenly spaced. */
+.wp-core-ui .claspo-page .claspo-block.button {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.wp-core-ui .claspo-page .claspo-block.button:last-child:last-child {
+    margin-bottom: 0;
+}
+
+/* The connect button is the one place a full-height control is right: it sits
+   beside a 44px field and must match it. */
+.wp-core-ui .claspo-page .claspo-field .button {
+    min-height: var(--cl-control-h);
+    padding: 10px 30px;
+}
+
+/* Focus. Claspo's focus ring is a soft orange halo, core's is a blue box
+   shadow; the blue has to go everywhere it appears. */
+.wp-core-ui .claspo-page .button:focus,
+.wp-core-ui .claspo-notice .button:focus,
+.wp-core-ui .claspo-review-notice .button:focus,
+.wp-core-ui .claspo-page input:focus,
+.wp-core-ui .claspo-page select:focus,
+.wp-core-ui .claspo-page textarea:focus {
+    outline: 2px solid var(--cl-focus);
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+/* --- Submitting -----------------------------------------------------------
+
+   A spinner in the button, in the button's own text colour, so one rule covers
+   all three weights.
+
+   Claspo marks a working control with drifting diagonal stripes
+   (CL_APP_THEME.buttonLoadingBackground). That did not survive the port: the
+   stripes come from a repeating-linear-gradient, and animating its
+   background-position re-tiles the pattern every frame, which showed up as
+   rectangles with seams through them. Feedback is the point, not the
+   particular texture.
+   -------------------------------------------------------------------------- */
+
+.wp-core-ui .claspo-page .button.is-busy {
+    cursor: progress;
+}
+
+.wp-core-ui .claspo-page .button.is-busy::before::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 14px;
+    height: 14px;
+    margin-right: 9px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: claspo-spin .7s linear infinite;
+}
+
+@keyframes claspo-spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .wp-core-ui .claspo-page .button.is-busy::before {
+        animation-duration: 2s;
+    }
+}
+
+/* Only the field the user is waiting on dims. An earlier version dimmed every
+   input in the form, which un-hid the visually hidden checkbox behind each
+   toggle: WordPress's own square checkbox appeared on top of the toggle for as
+   long as the save lasted. */
+.claspo-page form[aria-busy="true"] .claspo-field input {
+    opacity: .7;
+}
+
+/* --- Fields --------------------------------------------------------------- */
+
+.wp-core-ui .claspo-page input[type="text"],
+.wp-core-ui .claspo-page input[type="search"],
+.wp-core-ui .claspo-page input[type="url"],
+.wp-core-ui .claspo-page input[type="email"] {
+    height: var(--cl-control-h);
+    padding: 11px 18px;
+    border: 1px solid transparent;
+    border-radius: var(--cl-radius-pill);
+    background: var(--cl-fill);
+    color: var(--cl-ink);
+    box-shadow: none;
+    font-size: 15px;
+}
+
+.wp-core-ui .claspo-page input::placeholder {
+    color: var(--cl-ink-faint);
+}
+
+/* --- Tabs -----------------------------------------------------------------
+
+   A segmented control, not a row of buttons: a grey track holding both tabs,
+   the selected one white with a 2px accent outline. Claspo builds its own tab
+   groups this way (claspo-ui es-restyle.scss, .selectItem-tabs / .selected-tab,
+   styled "as the cl-button-toggle pill"), and the reason matters here — a tab
+   filled with the accent carries exactly as much weight as "Open Claspo" next
+   to it, so navigation and the page's main action become indistinguishable.
+   -------------------------------------------------------------------------- */
+
+/* .wp-core-ui is in here to win a specificity fight, not for show. Core styles
+   this element as `.wrap h2.nav-tab-wrapper` — two classes and an element,
+   (0,2,1) — which beats a plain `.claspo-page .claspo-tabs` at (0,2,0) and put
+   back its own `margin: 0`, `padding-bottom: 0` and bottom border. The result
+   was a tab group with no gap under it, sitting on the status strip. */
+.wp-core-ui .claspo-page .claspo-tabs {
+    display: flex;
+    width: fit-content;
+    gap: 5px;
+    padding: 3px;
+    border: 0;
+    border-radius: var(--cl-radius-pill);
+    background: var(--cl-fill);
+    line-height: 1;
+    margin: 0 0 20px;
+    clear: both;
+}
+
+.wp-core-ui .claspo-page .nav-tab {
+    display: inline-flex;
+    align-items: center;
+    height: 32px;
+    margin: 0;
+    padding: 0 20px;
+    float: none;
+    text-decoration: none;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    background: transparent;
+    color: var(--cl-ink);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.wp-core-ui .claspo-page .nav-tab:hover {
+    background: rgba(255, 255, 255, .7);
+    color: var(--cl-ink);
+}
+
+.wp-core-ui .claspo-page .nav-tab-active,
+.wp-core-ui .claspo-page .nav-tab-active:hover {
+    background: var(--cl-surface);
+    border-color: var(--cl-accent);
+    color: var(--cl-ink);
+}
+
+.wp-core-ui .claspo-page .nav-tab:focus-visible {
+    outline: 2px solid var(--cl-focus);
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+/* --- Status and review strip ---------------------------------------------
+
+   One slot, so one shape. The left edge carries the state colour.
+   ------------------------------------------------------------------------- */
+
+.claspo-strip {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: var(--cl-surface);
+    border: 1px solid var(--cl-line);
+    border-left: 4px solid var(--cl-ink-faint);
+    border-radius: var(--cl-radius-card);
+    padding: 16px 20px;
+    margin-bottom: 14px;
+}
+
+.claspo-strip.is-ok {
+    border-left-color: var(--cl-success);
+}
+
+.claspo-strip.is-problem {
+    border-left-color: var(--cl-error);
+}
+
+.claspo-strip.is-review {
+    border-left-color: var(--cl-accent);
+    background: var(--cl-accent-soft);
+    border-color: #f7d4c9;
+}
+
+.claspo-strip-text {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.claspo-strip-text h2 {
+    margin: 0 0 3px;
+    font-size: 15px;
+}
+
+.claspo-strip-text p {
+    margin: 0;
+    color: var(--cl-ink-soft);
+}
+
+.claspo-strip-actions {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.claspo-strip-actions form {
+    margin: 0;
+}
+
+.claspo-quiet {
+    text-decoration: none;
+}
+
+/* --- Cards --------------------------------------------------------------- */
+
+.claspo-columns {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.claspo-main {
+    flex: 1 1 68%;
+    min-width: 0;
+}
+
+.claspo-side {
+    flex: 0 0 300px;
+}
+
+.claspo-card {
+    background: var(--cl-surface);
+    border: 1px solid var(--cl-line);
+    border-radius: var(--cl-radius-card);
+    padding: 18px 20px;
+    margin-bottom: 14px;
+}
+
+.claspo-card h3 {
+    margin: 0 0 10px;
+    font-size: 14px;
+}
+
+.claspo-card p {
+    margin: 0 0 12px;
+    color: var(--cl-ink-soft);
+}
+
+.claspo-empty {
+    text-align: center;
+    padding: 34px 18px;
+}
+
+.claspo-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.claspo-list-label {
+    margin: 0 0 8px;
+    font-weight: 600;
+    color: var(--cl-ink-soft);
+}
+
+.claspo-state.is-live {
+    color: var(--cl-success);
+    font-weight: 600;
+}
+
+.claspo-state.is-paused {
+    color: var(--cl-error);
+    font-weight: 600;
+}
+
+.claspo-state.is-draft {
+    color: var(--cl-ink-soft);
+}
+
+.claspo-tag {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 9px;
+    border-radius: 999px;
+    background: var(--cl-fill);
+    color: var(--cl-ink);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* The widget list is a card in its own right. Stripping .widefat's border and
+   background without giving the table a surface of its own is what left it as
+   loose striped rows on the grey page. */
+.claspo-table-card {
+    background: var(--cl-surface);
+    border: 1px solid var(--cl-line);
+    border-radius: var(--cl-radius-card);
+    overflow: hidden;
+    overflow-x: auto;
+    margin-bottom: 14px;
+}
+
+.wp-core-ui .claspo-page .claspo-widgets,
+.wp-core-ui .claspo-page .claspo-vars {
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+    margin: 0;
+}
+
+.claspo-page .claspo-widgets tbody tr,
+.claspo-page .claspo-vars tbody tr {
+    background: transparent;
+}
+
+.claspo-page .claspo-widgets th,
+.claspo-page .claspo-vars th {
+    background: #fafafb;
+    color: var(--cl-ink-soft);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    padding: 11px 18px;
+    border-bottom: 1px solid var(--cl-line);
+}
+
+.claspo-page .claspo-widgets td,
+.claspo-page .claspo-vars td {
+    padding: 13px 18px;
+    border-top: 1px solid #f1f1f3;
+    vertical-align: middle;
+}
+
+.claspo-page .claspo-widgets tbody tr:first-child td,
+.claspo-page .claspo-vars tbody tr:first-child td {
+    border-top: 0;
+}
+
+/* All four widths are declared. Leaving one column to take "whatever is left"
+   works under table-layout: fixed and collapses to a single character the
+   moment anything puts the table back on the automatic algorithm — which is
+   how a State column one character wide ends up reading downwards.
+
+   min-width is the floor. Below it the card scrolls sideways instead of the
+   columns fighting over too little room; a row the reader can push across is
+   better than four columns none of which can be read. */
+.claspo-widgets {
+    min-width: 580px;
+}
+
+.claspo-widgets th:nth-child(1),
+.claspo-widgets td:nth-child(1) {
+    width: 38%;
+}
+
+.claspo-widgets th:nth-child(2),
+.claspo-widgets td:nth-child(2) {
+    width: 28%;
+}
+
+.claspo-widgets th:nth-child(3),
+.claspo-widgets td:nth-child(3) {
+    width: 20%;
+}
+
+.claspo-widgets th:nth-child(4),
+.claspo-widgets td:nth-child(4) {
+    width: 14%;
+}
+
+/* Live and its A/B tag belong on one line while there is room for them. */
+.claspo-widgets td:nth-child(3) {
+    white-space: nowrap;
+}
+
+/* --- Targeting data tab -------------------------------------------------- */
+
+.claspo-howto {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+}
+
+.claspo-howto > div {
+    flex: 1 1 auto;
+}
+
+.claspo-howto ol {
+    flex: 1 1 380px;
+    min-width: 0;
+    margin: 0;
+    padding-left: 20px;
+    line-height: 1.8;
+}
+
+.claspo-group {
+    background: var(--cl-surface);
+    border: 1px solid var(--cl-line);
+    border-radius: var(--cl-radius-card);
+    margin-bottom: 14px;
+    overflow: hidden;
+    overflow-x: auto;
+}
+
+.claspo-group.is-off {
+    background: #fbfbfc;
+}
+
+.claspo-group-head {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 13px 18px;
+    background: #fafafb;
+    border-bottom: 1px solid var(--cl-line);
+}
+
+.claspo-group.is-off .claspo-group-head {
+    background: var(--cl-fill);
+}
+
+.claspo-group-title {
+    font-size: 14px;
+}
+
+.claspo-toggle {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    flex: 1 1 auto;
+    min-width: 0;
+    cursor: pointer;
+}
+
+/* The real control stays in the DOM for keyboard and screen readers; the track
+   below is only its skin. clip-path does the hiding rather than opacity alone,
+   so no later rule can bring WordPress's own checkbox back into view, and the
+   min-* resets are there because core sets min-width/min-height on every
+   checkbox at a higher specificity than a plain width/height. */
+.claspo-page .claspo-toggle input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    box-shadow: none;
+    opacity: 0;
+    clip-path: inset(50%);
+}
+
+.claspo-track {
+    flex: 0 0 auto;
+    width: 38px;
+    height: 22px;
+    box-sizing: border-box;
+    border-radius: 11px;
+    background: #d9d9d9;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2px;
+    transition: background .15s ease;
+}
+
+.claspo-knob {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    transition: transform .15s ease;
+}
+
+.claspo-toggle input:checked + .claspo-track {
+    background: var(--cl-accent);
+}
+
+.claspo-toggle input:checked + .claspo-track .claspo-knob {
+    transform: translateX(16px);
+}
+
+.claspo-toggle input:focus-visible + .claspo-track {
+    outline: 2px solid var(--cl-focus);
+    outline-offset: 2px;
+}
+
+.claspo-badge {
+    flex: 0 0 auto;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 4px 13px;
+    background: var(--cl-surface);
+    border: 1px solid var(--cl-line-strong);
+    color: var(--cl-ink-soft);
+}
+
+.claspo-group:not(.is-off) .claspo-badge {
+    background: var(--cl-success-soft);
+    border-color: #b8e4cc;
+    color: var(--cl-success);
+}
+
+.claspo-page .claspo-vars th {
+    background: transparent;
+}
+
+.claspo-vars {
+    min-width: 520px;
+}
+
+.claspo-vars th:nth-child(1),
+.claspo-vars td:nth-child(1) {
+    width: 34%;
+}
+
+.claspo-vars th:nth-child(2),
+.claspo-vars td:nth-child(2) {
+    width: 40%;
+}
+
+.claspo-vars th:nth-child(3),
+.claspo-vars td:nth-child(3) {
+    width: 26%;
+}
+
+.claspo-vars code {
+    background: transparent;
+    padding: 0;
+    color: var(--cl-ink);
+}
+
+/* An off group's variables are not being sent, so the rows read as inactive.
+   One mechanism rather than several, so the toggle can switch it live. */
+.claspo-group.is-off .claspo-vars tbody {
+    opacity: .5;
+}
+
+/* --- Copying a variable name ---------------------------------------------
+
+   Claspo matches these names exactly, and they are read here and typed over
+   there. The copy button is what keeps that transfer lossless.
+   -------------------------------------------------------------------------- */
+
+.claspo-var {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.claspo-page .claspo-copy {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--cl-radius-sm);
+    background: transparent;
+    color: var(--cl-ink-faint);
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+}
+
+.claspo-page .claspo-copy:hover {
+    background: var(--cl-fill);
+    color: var(--cl-ink);
+}
+
+.claspo-page .claspo-copy:focus-visible {
+    outline: 2px solid var(--cl-focus);
+    outline-offset: 1px;
+}
+
+.claspo-page .claspo-copy.is-copied {
+    background: var(--cl-success-soft);
+    color: var(--cl-success);
+}
+
+.claspo-page .claspo-copy.is-copied svg {
+    display: none;
+}
+
+.claspo-page .claspo-copy.is-copied::after {
+    content: "\2713";
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* The clipboard was refused. The name is selected instead, so this says the
+   click did something rather than leaving a dead button. */
+.claspo-page .claspo-copy.is-failed {
+    background: var(--cl-error-soft);
+    color: var(--cl-error);
+}
+
+/* --- Saving the targeting form ------------------------------------------- */
+
+.claspo-save {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* The toggles answer immediately; this is what stops the page from implying
+   the site already works that way. */
+.claspo-unsaved {
+    color: var(--cl-warning);
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* ---------------------------------------------------------------------------
+   Connect screen.
+
+   The card is centred in the content area, both ways. Two things make that
+   work: the centring box spans the whole content area, so the card lands on
+   the real middle rather than on the middle of some narrower box; and the box
+   height is the viewport less twice the offset above it (32px admin bar plus
+   the 10px .wrap margin), which puts the card's middle on the viewport's.
+   --------------------------------------------------------------------------- */
+
+.claspo-page.is-connect {
+    padding-bottom: 0;
+}
+
+.claspo-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 84px);
+}
+
+/* Below 783px the admin bar is 46px tall, so the offset above the box is 56px. */
+@media screen and (max-width: 782px) {
+    .claspo-center {
+        min-height: calc(100vh - 112px);
+    }
+}
+
+/* On a short viewport centring would crop the card, so stop centring. */
+@media screen and (max-height: 680px) {
+    .claspo-center {
+        align-items: flex-start;
+        min-height: 0;
+        padding: 16px 0 40px;
+    }
+}
+
+.claspo-connect {
+    width: 100%;
+    max-width: 620px;
+    background: var(--cl-surface);
+    border: 1px solid var(--cl-line);
+    border-radius: 16px;
+    box-shadow: var(--cl-shadow-float);
+    padding: 34px 38px;
+}
+
+.claspo-connect-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.claspo-connect-mark {
+    flex: 0 0 auto;
+    border-radius: var(--cl-radius-card);
+}
+
+.claspo-connect-head h2 {
+    margin: 0;
+    font-size: 19px;
+}
+
+.claspo-connect-head p {
+    margin: 3px 0 0;
+    color: var(--cl-ink-soft);
+}
+
+.claspo-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.claspo-field {
+    display: flex;
+    gap: 10px;
+}
+
+.claspo-field input {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.claspo-where {
+    margin-top: 12px;
+}
+
+.claspo-where summary {
+    cursor: pointer;
+    color: var(--cl-accent);
+    font-size: 13px;
+    width: fit-content;
+}
+
+.claspo-where summary:hover {
+    color: var(--cl-accent-hover);
+}
+
+.claspo-where ol {
+    margin: 10px 0 0;
+    padding-left: 20px;
+    color: var(--cl-ink-soft);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.claspo-or {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 26px 0;
+    color: var(--cl-ink-faint);
+    font-size: 13px;
+}
+
+.claspo-or::before,
+.claspo-or::after {
+    content: "";
+    flex: 1 1 auto;
+    height: 1px;
+    background: var(--cl-line);
+}
+
+.claspo-signup {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.claspo-signup h3 {
+    margin: 0 0 3px;
+    font-size: 14px;
+}
+
+.claspo-signup p {
+    margin: 0;
+    color: var(--cl-ink-soft);
+    font-size: 13px;
+}
+
+/* ---------------------------------------------------------------------------
+   Dashboard widget.
+
+   This card is a guest among a dozen others, and the ones around it are all
+   WordPress blue with square buttons. Claspo's accent, pill buttons and
+   typeface are deliberately absent here: a card that shouts in a column of
+   quiet ones does not read as prominent, it reads as broken. The only styling
+   left is the layout and the status dot, and the dot takes WordPress's own
+   status colours for the same reason.
+   --------------------------------------------------------------------------- */
+
+.claspo-dash-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.claspo-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #8c8f94;
+    flex: 0 0 auto;
+}
+
+.claspo-dot.is-ok {
+    background: #00a32a;
+}
+
+.claspo-dot.is-bad {
+    background: #d63638;
+}
+
+.claspo-dot.is-warn {
+    background: #dba617;
+}
+
+.claspo-dash-list {
+    margin: 0 0 12px;
+    padding: 10px 0;
+    border-top: 1px solid #dcdcde;
+    border-bottom: 1px solid #dcdcde;
+}
+
+.claspo-dash-list li {
+    margin: 0 0 4px;
+}
+
+.claspo-dash-links {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------- */
+
+/* The side column takes 300px plus a 20px gap. Below roughly 1100px that
+   leaves the widget table under its 580px floor, so it would start scrolling
+   sideways while there is still plenty of page. Stacking the columns first
+   gives the table the full width instead. */
+@media screen and (max-width: 1100px) {
+    .claspo-columns {
+        display: block;
+    }
+
+    .claspo-side {
+        margin-top: 18px;
+    }
+
+    .claspo-howto {
+        display: block;
+    }
+
+    .claspo-howto ol {
+        margin-top: 12px;
+    }
+
+    .claspo-strip {
+        display: block;
+    }
+
+    .claspo-strip-actions {
+        margin-top: 12px;
+    }
+
+    .claspo-field {
+        display: block;
+    }
+
+    .wp-core-ui .claspo-page .claspo-field .button {
+        margin-top: 10px;
+        width: 100%;
+    }
+}

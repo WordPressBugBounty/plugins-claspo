@@ -3,10 +3,12 @@
 /**
  * Plugin Name: Claspo - Popups, Spin the Wheel & Email Capture
  * Description: Grow your email list and increase sales! Use the Claspo Popup Maker plugin to create pop-up windows, Spin the Wheel, Exit Intent, and Lead Gen forms.
- * Version: 1.2.0
+ * Version: 2.0.0
  * Author: Claspo Popup Builder team
  * Author URI: https://www.claspo.io
  * License: GPL-2.0+
+ * Requires at least: 6.0
+ * Requires PHP: 7.4
  * WC requires at least: 9.0
  * WC tested up to: 10.5.2
  */
@@ -15,16 +17,38 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+const CLASPO_VERSION         = '2.0.0';
 const CLASPO_GET_SCRIPT_URL  = 'https://script.claspo.io/site-script/v1/site/script/';
 const CLASPO_EVENT_URL       = 'https://script.claspo.io/site-script/v1/event';
 const CLASPO_STATE_TRANSIENT = 'claspo_connect_state_';
 const CLASPO_STATE_TTL       = 30 * MINUTE_IN_SECONDS;
+
+require_once plugin_dir_path( __FILE__ ) . 'includes/state.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/connect.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/freshness.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/status.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/history.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/notices.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/review.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/dashboard.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/upgrade.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/adminbar.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/variables.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/variables-output.php';
 
 add_action( 'admin_menu', 'claspo_add_admin_menu' );
 add_action( 'admin_post_claspo_save_script', 'claspo_save_script' );
 add_action( 'admin_init', 'claspo_check_script_id' );
 add_action( 'admin_enqueue_scripts', 'claspo_enqueue_admin_scripts' );
 add_action( 'rest_api_init', 'claspo_register_rest_routes' );
+add_action( 'claspo_daily_status_check', 'claspo_refresh_status' );
+add_action( 'claspo_status_check_now', 'claspo_refresh_status' );
+add_action( 'admin_post_claspo_refresh_status', 'claspo_handle_refresh_status' );
+add_action( 'init', 'claspo_upgrade_if_needed' );
+
+// Registered here rather than in upgrade.php because this is the main plugin file,
+// which is what plugin_basename() must be given.
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'claspo_plugin_action_links' );
 
 add_action( 'before_woocommerce_init', function () {
     if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
@@ -36,14 +60,14 @@ function claspo_add_admin_menu() {
     $claspo_script_id = get_option('claspo_script_id');
     $menu_title = 'Claspo';
 
-    // Add badge if the script ID is not set
-    if (!$claspo_script_id) {
+    // Badge when the plugin needs attention: not connected, or a problem state.
+    if ( ! $claspo_script_id || null !== claspo_current_problem_state() ) {
         $menu_title .= ' <span class="awaiting-mod update-plugins count-1"><span class="pending-count">1</span></span>';
     }
 
 
 //    add_options_page( 'Claspo', 'Claspo', 'manage_options', 'claspo_script_plugin', 'claspo_options_page' );
-    add_menu_page( 'Claspo', $menu_title, 'manage_options', 'claspo_script_plugin', 'claspo_options_page', plugin_dir_url( __FILE__ ) . 'img/claspo_logo.png');
+    add_menu_page( 'Claspo', $menu_title, 'manage_options', 'claspo_script_plugin', 'claspo_options_page', 'none' );
 }
 
 function claspo_check_script_id() {
@@ -79,36 +103,62 @@ function claspo_check_script_id() {
 }
 
 function claspo_enqueue_admin_scripts( $hook ) {
-    if ( $hook != 'toplevel_page_claspo_script_plugin' ) {
+    // The dashboard needs the same sheet: our widget lives there too.
+    if ( 'toplevel_page_claspo_script_plugin' !== $hook && 'index.php' !== $hook ) {
         return;
     }
 
-    wp_enqueue_style( 'claspo-admin-style', plugin_dir_url( __FILE__ ) . 'css/main.css' );
-    wp_enqueue_script( 'claspo-admin-script', plugin_dir_url( __FILE__ ) . 'js/main2.js', array(), false, true );
+    wp_enqueue_style( 'claspo-admin-style', plugin_dir_url( __FILE__ ) . 'css/main.css', array(), claspo_asset_version( 'css/main.css' ) );
+    wp_enqueue_script( 'claspo-admin-script', plugin_dir_url( __FILE__ ) . 'js/main2.js', array(), claspo_asset_version( 'js/main2.js' ), true );
 }
 
+/**
+ * Cache-busting version for an asset, taken from the file's own timestamp.
+ *
+ * Passing false leaves wp_enqueue_* to fall back to the WordPress version,
+ * which only changes when core updates. A plugin update then ships new CSS and
+ * JS under a URL the browser and the host's CDN already have cached, and the
+ * old files keep being served. That is how a fixed screen stays broken.
+ *
+ * @param string $relative Path inside the plugin directory.
+ * @return string
+ */
+function claspo_asset_version( $relative ) {
+    $path = plugin_dir_path( __FILE__ ) . $relative;
+    $time = file_exists( $path ) ? filemtime( $path ) : 0;
+
+    return $time ? (string) $time : CLASPO_VERSION;
+}
+
+/**
+ * Routes the plugin screen: the connect form until a script is saved, then the
+ * tabbed page. The old one-off "connected!" screen is gone; connecting now
+ * lands on the ordinary page, which already says whether popups are running.
+ *
+ * @return void
+ */
 function claspo_options_page() {
-    $script_code     = get_option( 'claspo_script_code' );
-    $error_message   = get_transient( 'claspo_api_error' );
-    $success_message = get_transient( 'claspo_success_message' );
+    $script_code   = get_option( 'claspo_script_code' );
+    $error_message = get_transient( 'claspo_api_error' );
 
-    if ( $success_message && $script_code ) {
-        $claspo_verified = get_transient( 'claspo_script_verified' );
-        include plugin_dir_path( __FILE__ ) . 'templates/success.php';
-        delete_transient( 'claspo_success_message' );
-        delete_transient( 'claspo_script_verified' );
-    } /*elseif ( $error_message ) {
-        include plugin_dir_path( __FILE__ ) . 'templates/error.php';
-        delete_transient( 'claspo_api_error' );
-    }*/ elseif ( ! $script_code || $error_message) {
+    if ( ! $script_code ) {
+        $claspo_error = $error_message;
         include plugin_dir_path( __FILE__ ) . 'templates/form.php';
+        delete_transient( 'claspo_api_error' );
 
-        if ( $error_message ) {
-            delete_transient( 'claspo_api_error' );
-        }
-    } else {
-        include plugin_dir_path( __FILE__ ) . 'templates/main.php';
+        return;
     }
+
+    // claspo_keep_status_fresh() asked Claspo on admin_init, so this is current.
+    $claspo_status    = claspo_get_status();
+    $claspo_history   = claspo_get_history();
+    $claspo_connected = (bool) get_transient( 'claspo_success_message' );
+    $claspo_tab       = ( isset( $_GET['tab'] ) && 'targeting' === $_GET['tab'] ) ? 'targeting' : 'widgets';
+
+    delete_transient( 'claspo_success_message' );
+    delete_transient( 'claspo_script_verified' );
+
+    include plugin_dir_path( __FILE__ ) . 'templates/main.php';
 }
 
 function claspo_save_script() {
@@ -173,6 +223,8 @@ function claspo_apply_script_id( $script_id ) {
 
     $verified = claspo_verify_and_ping( $script_id );
     set_transient( 'claspo_script_verified', $verified, 30 );
+
+    claspo_refresh_status();
 
     return true;
 }
@@ -277,10 +329,37 @@ function claspo_register_settings() {
 function claspo_plugin_activate() {
     // Зберігаємо змінну, щоб перевірити чи був плагін щойно активований
     add_option('claspo_plugin_activated', true);
+    claspo_schedule_status_check();
 }
 
 // Реєструємо функцію активації
 register_activation_hook(__FILE__, 'claspo_plugin_activate');
+
+/**
+ * Runs once after the plugin is updated.
+ *
+ * An update does not run the activation hook, so anything activation sets up
+ * is repeated here for the installs that already exist: without this, the
+ * daily check would never be scheduled on a site that updated rather than
+ * installed fresh. Costs one autoloaded option read per request.
+ *
+ * @return void
+ */
+function claspo_upgrade_if_needed() {
+    if ( CLASPO_VERSION === get_option( 'claspo_version' ) ) {
+        return;
+    }
+
+    claspo_schedule_status_check();
+
+    // A connected site should not read as "not checked yet" until somebody
+    // happens to open wp-admin; cron can answer that on its own.
+    if ( get_option( 'claspo_script_id' ) ) {
+        claspo_queue_status_check();
+    }
+
+    update_option( 'claspo_version', CLASPO_VERSION );
+}
 
 // Перевіряємо чи плагін був щойно активований, і виконуємо редірект
 function claspo_plugin_redirect() {
@@ -397,4 +476,56 @@ function claspo_verify_and_ping( $script_id ) {
 }
 
 
-?>
+/**
+ * Schedules the daily check. Idempotent, so it is safe to call on activation
+ * and from the upgrade path.
+ *
+ * @return void
+ */
+function claspo_schedule_status_check() {
+    if ( ! wp_next_scheduled( 'claspo_daily_status_check' ) ) {
+        wp_schedule_event( time() + HOUR_IN_SECONDS, 'daily', 'claspo_daily_status_check' );
+    }
+}
+
+/**
+ * @return void
+ */
+function claspo_unschedule_status_check() {
+    $pending = wp_next_scheduled( 'claspo_status_check_now' );
+
+    if ( $pending ) {
+        wp_unschedule_event( $pending, 'claspo_status_check_now' );
+    }
+
+    $timestamp = wp_next_scheduled( 'claspo_daily_status_check' );
+
+    if ( $timestamp ) {
+        wp_unschedule_event( $timestamp, 'claspo_daily_status_check' );
+    }
+}
+
+register_deactivation_hook( __FILE__, 'claspo_unschedule_status_check' );
+
+/**
+ * Handles the "Check now" button on the plugin page.
+ *
+ * @return void
+ */
+function claspo_handle_refresh_status() {
+    if ( ! isset( $_POST['claspo_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['claspo_nonce'] ) ), 'claspo_refresh_status' ) ) {
+        wp_die( 'Security check failed', 'Security Error', array( 'response' => 403 ) );
+    }
+
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_die( 'You do not have sufficient permissions to access this page.', 'Permission Error', array( 'response' => 403 ) );
+    }
+
+    // No check here: init asks Claspo on the page this lands on, like any other
+    // admin page load. Clearing the backoff is what makes this button mean
+    // "try again now" after Claspo was unreachable.
+    delete_transient( 'claspo_check_backoff' );
+
+    wp_safe_redirect( admin_url( 'admin.php?page=claspo_script_plugin' ) );
+    exit;
+}

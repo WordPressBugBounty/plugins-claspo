@@ -1,5 +1,16 @@
 *** Claspo WooCommerce Extension Changelog ***
 
+2026-10-25 - version 2.0.0
+* New - Plugin page shows whether popups are running, which widgets are live, and links to each widget's leads
+* New - Status in the WordPress toolbar on the site and in a dashboard widget
+* New - Admin notice when popups stop showing: pageview limit reached, nothing published, or no widgets yet
+* New - Targeting data tab: page, WooCommerce product, cart and visitor variables for display conditions in Claspo
+* New - Daily status check with a Check now button
+* New - Review request, shown only to sites whose popups have run for a week
+* Update - Redesigned connect screen; it notices when the site was connected from another tab
+* Update - WordPress 7.1 compatibility and updated plugin description
+* Fixed - Uninstall now cleans up every site of a multisite network
+
 2026-04-20 - version 1.2.0
 * New - Automatic activation via background handshake from Claspo right after registration
 * Fixed - "Security check failed" error when returning to WordPress via the Go to WordPress button
