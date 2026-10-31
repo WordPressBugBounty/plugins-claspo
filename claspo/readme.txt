@@ -29,6 +29,10 @@ Claspo is a popup builder for WordPress and WooCommerce. Build email popups, spi
 * 👉 [Popup playbooks](https://claspo.io/popups-playbook/): 16 proven tactics for list growth, sales and leads
 * 👉 [Popup benchmarks](https://claspo.io/blog/popup-statistics/): what converts, with numbers
 
+= 🎬 See Claspo in action =
+
+[youtube https://www.youtube.com/watch?v=J4G24cZRquc]
+
 == 🎡 Gamified popups that convert 3x ==
 
 Visitors ignore plain popups. A game gives them a reason to interact. In our [benchmarks](https://claspo.io/blog/popup-statistics/), built on thousands of live widgets across industries, [gamified popups](https://claspo.io/templates/use-case/gamification/) convert on average 3x better than standard ones, and the top quarter of campaigns reach a 26% opt-in rate.
